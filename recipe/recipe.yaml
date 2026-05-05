@@ -8,20 +8,16 @@ context:
   name: ${{ repo_name }}
   component_version: ${{ component_name ~ major_version }}
   cxx_name: ${{ "lib" ~ name }}
-  protobuf_version: "6.33.5"
-
-  # osx-arm64
-  libabseil_version: ">=20260107.0,<20260108.0a0"
-  qt6_main_version: ">=6.11.0,<6.12.0a0"
-  tinyxml2_version: ">=11.0.0,<11.1.0a0"
 
 recipe:
   name: ${{ name }}
   version: ${{ version }}
 
 source:
-  - url: https://github.com/gazebosim/${{ repo_name }}/archive/${{ repo_name }}${{ major_version }}_${{ version }}.tar.gz
-    sha256: b5dd33aa20c43e34bbaf2c0c00a5bf5643f31d7808b52a38e90107b32f31b1c3
+  #- url: https://github.com/gazebosim/${{ repo_name }}/archive/${{ repo_name }}${{ major_version }}_${{ version }}.tar.gz
+  #  sha256: b5dd33aa20c43e34bbaf2c0c00a5bf5643f31d7808b52a38e90107b32f31b1c3
+  - git: https://github.com/srmainwaring/gz-gui.git
+    branch: gz-gui10-metal
 
 build:
   number: 0
@@ -39,7 +35,7 @@ outputs:
       build:
         - ${{ compiler('cxx') }}
         - ${{ compiler('c') }}
-        #- ${{ stdlib('c') }}
+        - ${{ stdlib('c') }}
         - ninja
         - cmake
         - pkg-config
@@ -48,9 +44,9 @@ outputs:
             - qt6-main
       host:
         - libgz-cmake
-        - libabseil ${{ libabseil_version }}
-        - libprotobuf ${{ protobuf_version }}.*
-        - tinyxml2 ${{ tinyxml2_version }}
+        - libabseil
+        - libprotobuf
+        - tinyxml2
         - libgz-math
         - libgz-common
         - libgz-plugin
@@ -59,7 +55,7 @@ outputs:
         - libgz-msgs
         - libgz-tools
         - libgz-utils
-        - qt6-main ${{ qt6_main_version }}
+        - qt6-main
         - if: linux
           then:
             - libgl-devel
