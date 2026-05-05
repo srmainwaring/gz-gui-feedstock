@@ -8,6 +8,12 @@ context:
   name: ${{ repo_name }}
   component_version: ${{ component_name ~ major_version }}
   cxx_name: ${{ "lib" ~ name }}
+  protobuf_version: "6.33.5"
+
+  # osx-arm64
+  libabseil_version: ">=20260107.0,<20260108.0a0"
+  qt6_main_version: ">=6.11.0,<6.12.0a0"
+  tinyxml2_version: ">=11.0.0,<11.1.0a0"
 
 recipe:
   name: ${{ name }}
@@ -18,7 +24,7 @@ source:
     sha256: b5dd33aa20c43e34bbaf2c0c00a5bf5643f31d7808b52a38e90107b32f31b1c3
 
 build:
-  number: 3
+  number: 0
 
 outputs:
   - package:
@@ -33,7 +39,7 @@ outputs:
       build:
         - ${{ compiler('cxx') }}
         - ${{ compiler('c') }}
-        - ${{ stdlib('c') }}
+        #- ${{ stdlib('c') }}
         - ninja
         - cmake
         - pkg-config
@@ -42,9 +48,9 @@ outputs:
             - qt6-main
       host:
         - libgz-cmake
-        - libabseil
-        - libprotobuf
-        - tinyxml2
+        - libabseil ${{ libabseil_version }}
+        - libprotobuf ${{ protobuf_version }}.*
+        - tinyxml2 ${{ tinyxml2_version }}
         - libgz-math
         - libgz-common
         - libgz-plugin
@@ -53,7 +59,7 @@ outputs:
         - libgz-msgs
         - libgz-tools
         - libgz-utils
-        - qt6-main
+        - qt6-main ${{ qt6_main_version }}
         - if: linux
           then:
             - libgl-devel
