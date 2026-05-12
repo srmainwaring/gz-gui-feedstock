@@ -45,6 +45,7 @@ libprotobuf:
 macos_machine:
 - arm64-apple-darwin20.0.0
 qt6_main:
+- '6.10'
 - '6.11'
 target_platform:
 - osx-arm64
@@ -55,3 +56,4 @@ zip_keys:
   - cxx_compiler_version
 - - libabseil
   - libprotobuf
+  - qt6_main
